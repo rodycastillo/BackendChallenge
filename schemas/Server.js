@@ -3,6 +3,8 @@ const cors = require("cors");
 const http = require("http");
 const socketio = require("socket.io");
 const socketIO = require("../utils/Socketio");
+const { connectDB } = require("../database/Config");
+const Cites = require("../routes/Cites");
 require("dotenv").config();
 
 class Server {
@@ -11,9 +13,10 @@ class Server {
     this.port = process.env.PORT;
     this.server = http.createServer(this.app);
     this.io = socketio(this.server);
-
+    this.dbConnection();
     this.middlewares();
     this.SocketIo();
+    this.routes();
     this.listen();
   }
 
@@ -41,13 +44,18 @@ class Server {
       });
     });
   }
+  async dbConnection() {
+    await connectDB();
+  }
 
   middlewares() {
     this.app.use(cors());
     this.app.use(express.json());
   }
 
-  routes() {}
+  routes() {
+    this.app.use("/api/cites", Cites);
+  }
 
   listen() {
     this.app.listen(this.port, () => {

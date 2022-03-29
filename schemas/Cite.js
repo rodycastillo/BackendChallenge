@@ -26,6 +26,10 @@ const CiteSchema = new mongoose.Schema({
     type: Object,
     required: true,
   },
+  dni: {
+    type: String,
+    required: [true, "DNI is required"],
+  },
 });
 
 // CiteSchema.methods.toJSON = function () {
