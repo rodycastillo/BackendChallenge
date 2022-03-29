@@ -30,6 +30,10 @@ const CiteSchema = new mongoose.Schema({
     type: String,
     required: [true, "DNI is required"],
   },
+  phone: {
+    type: Number,
+    required: [true, "Phone is required"],
+  },
 });
 
 // CiteSchema.methods.toJSON = function () {

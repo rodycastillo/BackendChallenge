@@ -21,6 +21,11 @@ const UserSchema = new mongoose.Schema(
       default: "USER_ROLE",
       emun: ["ADMIN_ROLE", "USER_ROLE"],
     },
+    dni: {
+      type: String,
+      required: [true, "DNI is required"],
+      unique: true,
+    },
   },
   {
     timestamps: true,

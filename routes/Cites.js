@@ -10,6 +10,7 @@ router.post("/", async (req, res) => {
     status: req.body.status,
     characters: req.body.characters,
     dni: req.body.dni,
+    phone: req.body.phone,
   });
   try {
     const cite = await newCite.save();

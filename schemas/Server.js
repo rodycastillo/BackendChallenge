@@ -5,6 +5,7 @@ const socketio = require("socket.io");
 const socketIO = require("../utils/Socketio");
 const { connectDB } = require("../database/Config");
 const Cites = require("../routes/Cites");
+const Auth = require("../routes/Auth");
 require("dotenv").config();
 
 class Server {
@@ -55,6 +56,7 @@ class Server {
 
   routes() {
     this.app.use("/api/cites", Cites);
+    this.app.use("/api/auth", Auth);
   }
 
   listen() {
