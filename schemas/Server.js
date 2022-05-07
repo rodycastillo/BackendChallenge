@@ -55,8 +55,8 @@ class Server {
   }
 
   routes() {
-    this.app.use("/api/cites", Cites);
-    this.app.use("/api/auth", Auth);
+    this.app.use("/api/v1.0/cites", Cites);
+    this.app.use("/api/v1.0/auth", Auth);
   }
 
   listen() {
