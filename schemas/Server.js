@@ -40,7 +40,7 @@ class Server {
       socket.on("disconnect", () => {
         io.emit("messages", {
           server: "Server",
-          message: `${nombre} has left the chat room.`,
+          message: `${name} has left the chat room.`,
         });
       });
     });
