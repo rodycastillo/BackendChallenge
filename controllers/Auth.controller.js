@@ -3,21 +3,20 @@ const CryptoJS = require('crypto-js');
 const { generateJWT } = require('../helpers/generateJWT');
 
 const login = async (req, res) => {
+    const { dni } = req.body;
     try {
-        const user = await User.find({dni: req.body.dni})
+        const user = await User.findOne({dni})
         if(!user) {
             res.status(401).json({message: "Invalid DNI", status: false})
         }
         const bytes = CryptoJS.AES.decrypt(user.password, process.env.SECRET_KEY);
         const originalPassword = bytes.toString(CryptoJS.enc.Utf8);
         originalPassword !== req.body.password && res.status(401).json({message: "Invalid Password", status: false});
-        const token = generateJWT(user._id)
-
-        const {password, ...info} = user._doc;
-
+        const token = await generateJWT(user._id)
+        const { password, ...info } = user._doc;
         res.status(200).json({ message: "Successfully Login", user: info, token, status: true });
     } catch (error) {
-        res.status(500).json({ message: err, status: false });
+        res.status(500).json({ message: error, status: false });
     }
 };
 
@@ -35,7 +34,7 @@ const register = async (req, res) => {
         const createdUser = await newUser.save();
         res.status(201).json({user: createdUser, status: true})
     } catch (error) {
-        res.status(500).json({message: err, status: false })
+        res.status(500).json({message: error, status: false })
     }
 }
 

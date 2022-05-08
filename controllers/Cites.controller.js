@@ -5,7 +5,7 @@ const Cite = require("../schemas/Cite")
 const newCite = async (req, res) => {
     const NewCite = new Cite({
         username: req.body.username,
-        puppyPhoto: req.body.puppyPhoto,
+        puppyPhoto: "",
         puppyName: req.body.puppyName,
         status: req.body.status,
         characters: req.body.characters,

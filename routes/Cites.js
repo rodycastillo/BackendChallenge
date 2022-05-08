@@ -12,4 +12,4 @@ cite.put("/puppy/:id", updateCite);
 
 cite.get("/puppies", getAllCites);
 
-module.exports = router;
+module.exports = cite;
