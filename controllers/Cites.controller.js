@@ -71,10 +71,24 @@ const getAllCites = async (req, res) => {
     }
 }
 
+const deleteCite = async (req, res) => {
+  
+  const _id = req.params.id;
+
+  try {
+    const DeleteCite = await Cite.findByIdAndDelete(_id);
+    res.status(200).json({message: "The cite has delete deleted", DeleteCite, status: true});
+  } catch (error) {
+    res.status(403).json({message: error, status: false})
+  }
+
+
+}
 
 module.exports = {
     newCite,
     updateCite,
     getCite,
-    getAllCites
+    getAllCites,
+    deleteCite
 }
