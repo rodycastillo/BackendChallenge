@@ -1,11 +1,13 @@
 const Cite = require("../schemas/Cite")
+const { cloudinary } = require('../helpers/sendToCloudinary');
 
 // Create Cite
 
 const newCite = async (req, res) => {
+    const { url } = await cloudinary.uploader.upload(req.file.path);
     const NewCite = new Cite({
         username: req.body.username,
-        puppyPhoto: "",
+        puppyPhoto: url,
         puppyName: req.body.puppyName,
         status: req.body.status,
         characters: req.body.characters,
@@ -77,7 +79,7 @@ const deleteCite = async (req, res) => {
 
   try {
     const DeleteCite = await Cite.findByIdAndDelete(_id);
-    res.status(200).json({message: "The cite has delete deleted", DeleteCite, status: true});
+    res.status(200).json({message: "The cite has been deleted", DeleteCite, status: true});
   } catch (error) {
     res.status(403).json({message: error, status: false})
   }

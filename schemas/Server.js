@@ -6,6 +6,8 @@ const socketio = require("socket.io");
 const { connectDB } = require("../database/Config");
 const Cites = require("../routes/Cites");
 const Auth = require("../routes/Auth");
+const multer = require("multer");
+const { storage } = require("../helpers/uploadImage");
 require("dotenv").config();
 
 class Server {
@@ -52,6 +54,7 @@ class Server {
   middlewares() {
     this.app.use(cors());
     this.app.use(express.json());
+    this.app.use(multer({storage}).single('image'));
   }
 
   routes() {
