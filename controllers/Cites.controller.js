@@ -1,5 +1,6 @@
 const Cite = require("../schemas/Cite")
 const { cloudinary } = require('../helpers/sendToCloudinary');
+const twilioTextMessage = require("../helpers/sendTextMessage");
 
 // Create Cite
 
@@ -14,6 +15,7 @@ const newCite = async (req, res) => {
         dni: req.body.dni,
         phone: req.body.phone,
       });
+      await twilioTextMessage({puppyName: req.body.puppyName, phone: req.body.phone})
       try {
         const cite = await NewCite.save();
         res.status(200).json({ message: "saved successfully", cite, status: true });
