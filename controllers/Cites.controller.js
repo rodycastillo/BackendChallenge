@@ -50,7 +50,7 @@ const updateCite = async (req, res) => {
 
 const getCite = async (req, res) => {
     try {
-      const puppy = await Cite.findOne({ dni: req.body.dni });
+      const puppy = await Cite.findOne({ dni: req.params.dni });
       !puppy &&
         res.status(401).json({ message: "Puppy not found", status: false });
   

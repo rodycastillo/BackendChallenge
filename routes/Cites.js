@@ -9,7 +9,7 @@ const {
 
 cite.post("/", newCite);
 
-cite.get("/puppy", getCite);
+cite.get("/puppy/:dni", getCite);
 
 cite.put("/puppy/:id", updateCite);
 
