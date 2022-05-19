@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const http = require("http");
+const logger = require('morgan')
 const socketio = require("socket.io");
 // const socketIO = require("../utils/Socketio");
 const { connectDB } = require("../database/Config");
@@ -54,6 +55,7 @@ class Server {
   middlewares() {
     this.app.use(cors());
     this.app.use(express.json());
+    this.app.use(logger('tiny'));
     this.app.use(multer({storage}).single('image'));
   }
 
