@@ -5,24 +5,28 @@ const twilioTextMessage = require("../helpers/sendTextMessage");
 // Create Cite
 
 const createCite = async (req, res) => {
-    const { url } = await cloudinary.uploader.upload(req.file.path);
-    const NewCite = new Cite({
-        username: req.body.username,
-        puppyPhoto: url,
-        puppyName: req.body.puppyName,
-        status: req.body.status,
-        characters: req.body.characters,
-        dni: req.body.dni,
-        phone: req.body.phone,
-      });
-      await twilioTextMessage({puppyName: req.body.puppyName, phone: req.body.phone})
       try {
+        console.log(JSON.stringify(req.body, null, 2));
+        const { url } = await cloudinary.uploader.upload(req.body?.image);
+        console.log(url);
+        const NewCite = new Cite({
+            username: req.body.username,
+            puppyPhoto: url,
+            puppyName: req.body.puppyName,
+            status: req.body.status,
+            characters: {
+              service: req.body.service,
+              specifications: req.body.specifications
+            },
+            dni: req.body.dni,
+            phone: req.body.phone,
+          });
+        await twilioTextMessage({puppyName: req.body.puppyName, phone: req.body.phone})
         const cite = await NewCite.save();
-        res.status(200).json({ message: "saved successfully", cite, status: true });
+        return res.status(200).json({ message: "saved successfully", cite, status: true });
       } catch (error) {
-        res.status(500).json({ message: error, status: false });
+        return res.status(500).json({ message: error, status: false });
       }
-      res.send(req.body);
 }
 
 // Update Cite
