@@ -1,13 +1,13 @@
 const cite = require("express").Router();
 const {
-  newCite,
+  createCite,
   updateCite,
   getCite,
   getAllCites,
   deleteCite 
 } = require('../controllers/Cites.controller')
 
-cite.post("/", newCite);
+cite.post("/", createCite);
 
 cite.get("/puppy/:dni", getCite);
 

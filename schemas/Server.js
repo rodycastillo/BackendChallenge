@@ -7,6 +7,7 @@ const socketio = require("socket.io");
 const { connectDB } = require("../database/Config");
 const Cites = require("../routes/Cites");
 const Auth = require("../routes/Auth");
+const Message = require("../routes/Message");
 const multer = require("multer");
 const { storage } = require("../helpers/uploadImage");
 require("dotenv").config();
@@ -62,6 +63,7 @@ class Server {
   routes() {
     this.app.use("/api/v1.0/cites", Cites);
     this.app.use("/api/v1.0/auth", Auth);
+    this.app.use('/api/v1.0/chat', Message)
   }
 
   listen() {

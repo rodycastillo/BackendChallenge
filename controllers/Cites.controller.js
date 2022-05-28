@@ -4,7 +4,7 @@ const twilioTextMessage = require("../helpers/sendTextMessage");
 
 // Create Cite
 
-const newCite = async (req, res) => {
+const createCite = async (req, res) => {
     const { url } = await cloudinary.uploader.upload(req.file.path);
     const NewCite = new Cite({
         username: req.body.username,
@@ -90,7 +90,7 @@ const deleteCite = async (req, res) => {
 }
 
 module.exports = {
-    newCite,
+    createCite,
     updateCite,
     getCite,
     getAllCites,

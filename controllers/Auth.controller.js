@@ -3,8 +3,8 @@ const CryptoJS = require('crypto-js');
 const { generateJWT } = require('../helpers/generateJWT');
 
 const login = async (req, res) => {
-    const { dni } = req.body;
     try {
+        const { dni } = req.body;
         const user = await User.findOne({dni})
         if(!user) {
             res.status(401).json({message: "Invalid DNI", status: false})
