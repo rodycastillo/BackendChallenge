@@ -18,7 +18,7 @@ const createCite = async (req, res) => {
       dni: req.body.dni,
       phone: req.body.phone,
     });
-    // await twilioTextMessage({puppyName: req.body.puppyName, phone: req.body.phone})
+    await twilioTextMessage({puppyName: req.body.puppyName, phone: req.body.phone})
     const cite = await NewCite.save();
     return res
       .status(200)
