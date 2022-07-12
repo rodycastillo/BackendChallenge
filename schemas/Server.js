@@ -17,7 +17,12 @@ class Server {
     this.app = express();
     this.port = process.env.PORT;
     this.server = http.createServer(this.app);
-    this.io = socketio(this.server);
+    this.io = socketio(this.server, {
+      cors: {
+        origin: "http://localhost:3000",
+        credentials: true,
+      },
+    });
     this.dbConnection();
     this.middlewares();
     this.SocketIo();
@@ -27,26 +32,43 @@ class Server {
 
   SocketIo() {
     this.io.on("connection", (socket) => {
-      let name;
-      socket.on("connect", (nomb) => {
-        name = nomb;
+      let global = {
+        onlineUsers: new Map(),
+        chatSocket
+      }
 
-        socket.broadcast.emit("messages", {
-          name,
-          message: `${name} has entered the chat room.`,
-        });
-      });
+      global.chatSocket = socket;
 
-      socket.on("message", (name, message) => {
-        io.emit("messages", { name, message });
+      socket.on("add-user", (userId) => {
+        global.onlineUsers.set(userId, socket.id);
       });
+    
+      socket.on("send-msg", (data) => {
+        const sendUserSocket = global.onlineUsers.get(data.to);
+        if (sendUserSocket) {
+          socket.to(sendUserSocket).emit("msg-recieve", data.msg);
+        }
+      });
+      // let name;
+      // socket.on("connect", (nomb) => {
+      //   name = nomb;
 
-      socket.on("disconnect", () => {
-        io.emit("messages", {
-          server: "Server",
-          message: `${name} has left the chat room.`,
-        });
-      });
+      //   socket.broadcast.emit("messages", {
+      //     name,
+      //     message: `${name} has entered the chat room.`,
+      //   });
+      // });
+
+      // socket.on("message", (name, message) => {
+      //   io.emit("messages", { name, message });
+      // });
+
+      // socket.on("disconnect", () => {
+      //   io.emit("messages", {
+      //     server: "Server",
+      //     message: `${name} has left the chat room.`,
+      //   });
+      // });
     });
   }
   async dbConnection() {
@@ -61,6 +83,9 @@ class Server {
   }
 
   routes() {
+    // Static View
+    this.app.use(express.static('public'))
+    // Api routes
     this.app.use("/api/v1.0/cites", Cites);
     this.app.use("/api/v1.0/auth", Auth);
     this.app.use('/api/v1.0/chat', Message)

@@ -6,4 +6,4 @@ message.post('/addMsg/', addMessage)
 
 message.post('/getMsg/', getMessages);
 
-module.exports = message
+module.exports = message;
